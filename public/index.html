@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" onkeydown="jump()">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles/style.css" />
+    <title>Flappy Bird</title>
+  </head>
+  <body>
+    <div id="window">
+      <div id="start"></div>
+      <h1 id="score">0</h1>
+      <div id="scoreboard">
+        <h2 id="gameover">Game Over</h2>
+        <h3 id="yourscore"></h3>
+        <h3 id="highscore"></h3>
+        <button onclick="window.location.reload();">Restart</button>
+      </div>
+    </div>
+  </body>
+  <script src="./js/constants.js"></script>
+  <script src="./js/utils.js"></script>
+  <script src="./js/player.js"></script>
+  <script src="./js/obstacle.js"></script>
+  <script src="./js/script.js"></script>
+</html>
