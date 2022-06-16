@@ -141,15 +141,7 @@ function restart() {
   const scoreBoard = document.querySelector("#scoreboard");
 
   gravity = setInterval(() => {
-    if (player.isJumping === false) {
-      if (player.playerPos.top < HEIGHT - 50) {
-        player.gravity();
-      } else {
-        player.isDead = true;
-        clearInterval(gravity);
-        playerObj.style.top = toPX(HEIGHT - 50);
-      }
-    }
+    player.gravity();
   }, 25);
 
   scoreBoard.style.display = "none";
