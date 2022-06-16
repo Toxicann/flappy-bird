@@ -1,6 +1,11 @@
 const playerObj = document.querySelector("#player");
-let score = 0;
 
+let score = 0;
+let levelDifficulty = 5;
+/* A setInterval function that is called every 25ms. It checks if the player is jumping and if the
+player is not jumping it checks if the player is below the height of the screen. If the player is
+below the height of the screen it calls the gravity function. If the player is not below the height
+of the screen it sets the player to dead and clears the interval. */
 var gravity = setInterval(() => {
   if (player.isJumping === false) {
     if (player.playerPos.top < HEIGHT - 50) {
@@ -13,6 +18,11 @@ var gravity = setInterval(() => {
   }
 }, 25);
 
+/**
+ * If the player is not dead, then if the player's top position is less than or equal to 0, then set
+ * the player's top position to 0, otherwise subtract 55 from the player's top position, set the
+ * player's gravity velocity to 0, and set the player's top position to the player's top position.
+ */
 const jump = () => {
   player.isNewGame = false;
   player.isJumping = true;
@@ -26,61 +36,83 @@ const jump = () => {
   player.isJumping = false;
 };
 
-// setInterval(() => {
-//   for (let i = 0; i < obsArray.length; i++) {
-//     const pillarTop = document.querySelector(`#pillar--top.p${obsArray[1].id}`);
-//     const pillarBottom = document.querySelector(
-//       `#pillar--bottom.p${obsArray[1].id}`
-//     );
-//     console.log(pillarTop);
-//     let playerPos = checkPos(playerObj);
-//     let topPillarPos = checkPos(pillarTop);
-//     let bottomPillarPos = checkPos(pillarBottom);
+let obsArray = [];
+let i = 0;
+let obstacleSpawner = setInterval(startGame, 2000);
 
-//     if (
-//       (playerPos.top < topPillarPos.top + obsArray[i].topTubeHeight &&
-//         playerPos.left + 50 > topPillarPos.left &&
-//         playerPos.left < topPillarPos.left + obsArray[i].width) ||
-//       (playerPos.top + 50 > bottomPillarPos.top &&
-//         playerPos.left + 50 > bottomPillarPos.left &&
-//         playerPos.left < bottomPillarPos.left + obsArray[i].width)
-//     ) {
-//       playerObj.style.backgroundColor = "red";
-//       player.isDead = true;
-//       // setPlayerAnimation();
-//     } else {
-//       playerObj.style.backgroundColor = "green";
-//     }
-//   }
-// }, 10);
+/**
+ * If the player is not in a new game, then hide the start button and display the score, and then
+ * create a new obstacle and push it to the obsArray.
+ **/
 
-// const collision = () => {
-//   for (let i = 0; i < obsArray.length; i++) {
-//     const pillarTop = document.querySelector(`#pillar--top.p${obsArray[i].id}`);
-//     const pillarBottom = document.querySelector(
-//       `#pillar--bottom.p${obsArray[i].id}`
-//     );
-//     // console.log(pillarTop);
-//     let playerPos = checkPos(playerObj);
-//     let topPillarPos = checkPos(pillarTop);
-//     let bottomPillarPos = checkPos(pillarBottom);
+function startGame() {
+  const score = document.getElementById("score");
+  const start = document.getElementById("start");
+  if (player.isNewGame == false) {
+    start.style.display = "none";
+    score.style.display = "block";
+    const obstacles = new Obstacles(i, HEIGHT, WIDTH, GAP_HEIGHT);
+    obsArray.push(obstacles);
+    i++;
+  } else {
+  }
+}
 
-//     if (
-//       (playerPos.top < topPillarPos.top + obsArray[i].topTubeHeight &&
-//         playerPos.left + 50 > topPillarPos.left &&
-//         playerPos.left < topPillarPos.left + obsArray[i].width) ||
-//       (playerPos.top + 50 > bottomPillarPos.top &&
-//         playerPos.left + 50 > bottomPillarPos.left &&
-//         playerPos.left < bottomPillarPos.left + obsArray[i].width)
-//     ) {
-//       playerObj.style.backgroundColor = "red";
-//       player.isDead = true;
-//       // setPlayerAnimation();
-//     } else {
-//       playerObj.style.backgroundColor = "green";
-//     }
-//   }
-// };
+let speedIncrease = setInterval(() => {
+  const level = document.querySelectorAll(".pillar");
+  const levelArr = Array.from(level);
+
+  levelDifficulty < 3 ? (levelDifficulty -= 1) : (levelDifficulty = 3);
+  levelArr.forEach((l) => {
+    l.style.animation = `movePillar ${levelDifficulty}s linear forwards`;
+    console.log(window.getComputedStyle(l).animation);
+  });
+}, 5000);
+
+/**
+ * It's a function that displays the scoreboard and the scores.
+ */
+function scoreBoard() {
+  const scoreBoard = document.querySelector("#scoreboard");
+  scoreBoard.style.display = "block";
+  const yourScore = document.querySelector("#yourscore");
+  yourScore.innerHTML = `Your Score: ${player.score} `;
+  const highScore = document.querySelector("#highscore");
+  highScore.innerHTML = `HighScore: ${localStorage.HighCount}`;
+}
+
+/**
+ * It stops the game when the player dies.
+ */
+function stop() {
+  player.setPlayerAnimation();
+  if (player.isDead == true) {
+    clearInterval(obstacleSpawner);
+    const window = document.querySelector("#window");
+    const pillars = document.querySelectorAll(".pillar");
+    const pillarsA = Array.from(pillars);
+    pillarsA.forEach((pillar) => {
+      window.removeChild(pillar);
+    });
+    obsArray = [];
+    scoreBoard();
+  }
+}
+
+/**
+ * It loops through the array of obstacles and checks for collision.
+ */
+function play() {
+  obsArray.forEach((obstacles) => {
+    obstacles.checkCollision();
+  });
+  stop();
+  window.requestAnimationFrame(() => {
+    play();
+  });
+}
+
+play();
 
 const setPlayerAnimation = () => {
   if (player.isDead) {
@@ -94,17 +126,3 @@ setInterval(() => {
     obstacles.remove();
   });
 }, 10000);
-
-// function play() {
-//   // setInterval(() => {
-//   //   ballArray.forEach((balls) => {
-//   //     balls.element.style.backgroundColor = COLOR;
-//   //   });
-//   // }, 4000);
-//   collision();
-//   window.requestAnimationFrame(() => {
-//     play();
-//   });
-// }
-
-// play();
