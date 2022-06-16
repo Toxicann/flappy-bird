@@ -15,6 +15,10 @@ class Player {
       localStorage.HighCount === undefined ? 0 : localStorage.HighCount;
   }
 
+  /**
+   * It creates a div element with the id of "player" and appends it to the div element with the id of
+   * "window".
+   */
   create() {
     const window = document.querySelector("#window");
     this.element = document.createElement("div");
@@ -22,24 +26,20 @@ class Player {
     window.appendChild(this.element);
   }
 
-  //   checkPos(object) {
-  //     return {
-  //       top: parseInt(window.getComputedStyle(object).top),
-  //       bottom: parseInt(window.getComputedStyle(object).bottom),
-  //       left: parseInt(window.getComputedStyle(object).left),
-  //       right: parseInt(window.getComputedStyle(object).right),
-  //     };
-  //   }
-
+  /**
+   * It gets the player's position and stores it in the playerPos object.
+   */
   getPlayerCords() {
     const player = document.querySelector("#player");
     this.playerPos = {
       top: parseInt(window.getComputedStyle(player).top),
       left: parseInt(window.getComputedStyle(player).left),
     };
-    // console.log(this.playerPos);
   }
 
+  /**
+   * It moves the player down the screen.
+   */
   gravity() {
     if (this.isNewGame == false) {
       this.element = document.querySelector("#player");
@@ -47,10 +47,15 @@ class Player {
       this.element.style.top = toPX(this.playerPos.top);
       this.gravityV += 0.4;
     }
-
-    // console.log(this.fallSpeed * this.gravityV);
   }
 
+  /**
+   * "If the player is dead, remove the animation and rotate the player."
+   *
+   * The problem is that the player is not rotating.
+   *
+   * I've tried using the following code:
+   */
   setPlayerAnimation() {
     const playerObj = document.querySelector("#player");
     if (this.isDead) {

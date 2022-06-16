@@ -25,7 +25,6 @@ var gravity = setInterval(() => {
  * player's gravity velocity to 0, and set the player's top position to the player's top position.
  */
 const jump = () => {
-  player.isNewGame = false;
   player.isJumping = true;
   if (player.isDead == false) {
     player.playerPos.top - 55 <= 0
@@ -42,9 +41,11 @@ let i = 0;
 let obstacleSpawner = setInterval(startGame, 2000);
 
 /**
- * If the player is not in a new game, then hide the start button and display the score, and then
- * create a new obstacle and push it to the obsArray.
- **/
+ * If the player is starting a new game, then run the game.
+ */
+function runGame() {
+  player.isNewGame = false;
+}
 
 function startGame() {
   const score = document.getElementById("score");
@@ -55,7 +56,6 @@ function startGame() {
     const obstacles = new Obstacles(i, HEIGHT, WIDTH, GAP_HEIGHT);
     obsArray.push(obstacles);
     i++;
-  } else {
   }
 }
 
@@ -130,3 +130,6 @@ setInterval(() => {
     obstacles.remove();
   });
 }, 10000);
+
+// function startGame() {}
+// const startButton = {}
