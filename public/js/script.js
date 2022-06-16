@@ -1,4 +1,4 @@
-const playerObj = document.querySelector("#player");
+let playerObj = document.querySelector("#player");
 
 let score = 0;
 let levelDifficulty = 5;
@@ -7,6 +7,7 @@ let levelDifficulty = 5;
 player is not jumping it checks if the player is below the height of the screen. If the player is
 below the height of the screen it calls the gravity function. If the player is not below the height
 of the screen it sets the player to dead and clears the interval. */
+
 var gravity = setInterval(() => {
   if (player.isJumping === false) {
     if (player.playerPos.top < HEIGHT - 50) {
@@ -26,6 +27,7 @@ var gravity = setInterval(() => {
  */
 const jump = () => {
   player.isJumping = true;
+  console.log(player.isDead);
   if (player.isDead == false) {
     player.playerPos.top - 55 <= 0
       ? player.playerPos.top
@@ -47,11 +49,17 @@ function runGame() {
   player.isNewGame = false;
 }
 
+/**
+ * It's a function that starts the game.
+ */
 function startGame() {
-  const score = document.getElementById("score");
-  const start = document.getElementById("start");
+  console.log("re");
+  let score = document.getElementById("score");
+  let start = document.getElementById("start");
   if (player.isNewGame == false) {
-    start.style.display = "none";
+    if (start) {
+      start.style.display = "none";
+    }
     score.style.display = "block";
     const obstacles = new Obstacles(i, HEIGHT, WIDTH, GAP_HEIGHT);
     obsArray.push(obstacles);
@@ -59,20 +67,10 @@ function startGame() {
   }
 }
 
-// let speedIncrease = setInterval(() => {
-//   const level = document.querySelectorAll(".pillar");
-//   const levelArr = Array.from(level);
-
-//   levelDifficulty < 3 ? (levelDifficulty -= 1) : (levelDifficulty = 3);
-//   levelArr.forEach((l) => {
-//     l.style.animation = `movePillar ${levelDifficulty}s linear forwards`;
-//     console.log(window.getComputedStyle(l).animation);
-//   });
-// }, 5000);
-
 /**
  * It's a function that displays the scoreboard and the scores.
  */
+
 function scoreBoard() {
   const scoreBoard = document.querySelector("#scoreboard");
   scoreBoard.style.display = "block";
@@ -131,5 +129,34 @@ setInterval(() => {
   });
 }, 10000);
 
-// function startGame() {}
-// const startButton = {}
+/**
+ * Restart() is a function that clears the window, creates a new player, and starts the game.
+ */
+function restart() {
+  const window = document.querySelector("#window");
+  window.innerHTML = "";
+  player = new Player(2.5, 2);
+  playerObj = document.querySelector("#player");
+  player.isNewGame = false;
+  const scoreBoard = document.querySelector("#scoreboard");
+
+  gravity = setInterval(() => {
+    if (player.isJumping === false) {
+      if (player.playerPos.top < HEIGHT - 50) {
+        player.gravity();
+      } else {
+        player.isDead = true;
+        clearInterval(gravity);
+        playerObj.style.top = toPX(HEIGHT - 50);
+      }
+    }
+  }, 25);
+
+  scoreBoard.style.display = "none";
+  let score = document.createElement("h1");
+  score.setAttribute("id", "score");
+  window.appendChild(score);
+  score.innerHTML = `${0}`;
+
+  obstacleSpawner = setInterval(startGame, 2000);
+}

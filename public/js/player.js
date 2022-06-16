@@ -65,4 +65,4 @@ class Player {
   }
 }
 
-const player = new Player(2.5, 2);
+let player = new Player(2.5, 2);
