@@ -18,6 +18,10 @@ class Obstacles {
     return this.topTubeHeight;
   }
 
+  /**
+   * It creates two divs, one for the top tube and one for the bottom tube, and appends them to the
+   * window
+   */
   create() {
     const window = document.querySelector("#window");
 
@@ -42,6 +46,9 @@ class Obstacles {
     window.appendChild(bottom_pillar);
   }
 
+  /**
+   * It removes the pillar from the DOM and the array when it's left position is less than -10.
+   */
   remove() {
     const window = document.querySelector("#window");
     const pillar = document.querySelectorAll(`.p${this.id}`);
@@ -49,7 +56,6 @@ class Obstacles {
 
     pillarArray.forEach((pillars) => {
       const pillarPos = checkPos(pillars);
-      // console.log(pillarPos);
       if (pillarPos.left - this.width < -10) {
         window.removeChild(pillars);
         obsArray.shift();
@@ -57,11 +63,13 @@ class Obstacles {
     });
   }
 
+  /**
+   * It checks if the player has collided with the pillar
+   */
   checkCollision() {
     const pillarTop = document.querySelector(`#pillar--top.p${this.id}`);
     const pillarBottom = document.querySelector(`#pillar--bottom.p${this.id}`);
     const playerObj = document.querySelector("#player");
-    // console.log(pillarTop);
     let playerPos = checkPos(playerObj);
     let topPillarPos = checkPos(pillarTop);
     let bottomPillarPos = checkPos(pillarBottom);
@@ -73,12 +81,10 @@ class Obstacles {
         playerPos.left + 50 > bottomPillarPos.left &&
         playerPos.left < bottomPillarPos.left + this.width)
     ) {
-      // console.log("collisison");
       player.isDead = true;
     } else if (playerPos.left + 50 > topPillarPos.left && !player.isDead) {
       if (this.id == player.score) {
         player.score += 1;
-        console.log("ree");
       }
       const scoreboard = document.querySelector("#score");
       scoreboard.innerHTML = `${player.score}`;

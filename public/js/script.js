@@ -2,6 +2,7 @@ const playerObj = document.querySelector("#player");
 
 let score = 0;
 let levelDifficulty = 5;
+
 /* A setInterval function that is called every 25ms. It checks if the player is jumping and if the
 player is not jumping it checks if the player is below the height of the screen. If the player is
 below the height of the screen it calls the gravity function. If the player is not below the height
@@ -58,16 +59,16 @@ function startGame() {
   }
 }
 
-let speedIncrease = setInterval(() => {
-  const level = document.querySelectorAll(".pillar");
-  const levelArr = Array.from(level);
+// let speedIncrease = setInterval(() => {
+//   const level = document.querySelectorAll(".pillar");
+//   const levelArr = Array.from(level);
 
-  levelDifficulty < 3 ? (levelDifficulty -= 1) : (levelDifficulty = 3);
-  levelArr.forEach((l) => {
-    l.style.animation = `movePillar ${levelDifficulty}s linear forwards`;
-    console.log(window.getComputedStyle(l).animation);
-  });
-}, 5000);
+//   levelDifficulty < 3 ? (levelDifficulty -= 1) : (levelDifficulty = 3);
+//   levelArr.forEach((l) => {
+//     l.style.animation = `movePillar ${levelDifficulty}s linear forwards`;
+//     console.log(window.getComputedStyle(l).animation);
+//   });
+// }, 5000);
 
 /**
  * It's a function that displays the scoreboard and the scores.
@@ -114,6 +115,9 @@ function play() {
 
 play();
 
+/**
+ * If the player is dead, remove the animation and rotate the player.
+ */
 const setPlayerAnimation = () => {
   if (player.isDead) {
     playerObj.style.animation = "none";

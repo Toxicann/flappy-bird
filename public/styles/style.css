@@ -15,7 +15,6 @@
   position: absolute;
   width: 100px;
   left: 1700px;
-  /* border: 1px solid red; */
   animation: movePillar 5s linear forwards;
 }
 
