@@ -67,6 +67,7 @@ class Obstacles {
    * It checks if the player has collided with the pillar
    */
   checkCollision() {
+    console.log(player.score);
     const pillarTop = document.querySelector(`#pillar--top.p${this.id}`);
     const pillarBottom = document.querySelector(`#pillar--bottom.p${this.id}`);
     const playerObj = document.querySelector("#player");

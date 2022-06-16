@@ -132,23 +132,23 @@ setInterval(() => {
 /**
  * Restart() is a function that clears the window, creates a new player, and starts the game.
  */
-function restart() {
-  const window = document.querySelector("#window");
-  window.innerHTML = "";
-  player = new Player(2.5, 2);
-  playerObj = document.querySelector("#player");
-  player.isNewGame = false;
-  const scoreBoard = document.querySelector("#scoreboard");
+// function restart() {
+//   const window = document.querySelector("#window");
+//   window.innerHTML = "";
+//   player = new Player(2.5, 2);
+//   playerObj = document.querySelector("#player");
+//   player.isNewGame = false;
+//   const scoreBoard = document.querySelector("#scoreboard");
 
-  gravity = setInterval(() => {
-    player.gravity();
-  }, 25);
+//   gravity = setInterval(() => {
+//     player.gravity();
+//   }, 25);
 
-  scoreBoard.style.display = "none";
-  let score = document.createElement("h1");
-  score.setAttribute("id", "score");
-  window.appendChild(score);
-  score.innerHTML = `${0}`;
+//   scoreBoard.style.display = "none";
+//   let score = document.createElement("h1");
+//   score.setAttribute("id", "score");
+//   window.appendChild(score);
+//   score.innerHTML = `${player.score}`;
 
-  obstacleSpawner = setInterval(startGame, 2000);
-}
+//   obstacleSpawner = setInterval(startGame, 2000);
+// }
